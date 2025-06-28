@@ -16,16 +16,7 @@ router.get("/search", async (req, res) => {
   res.render("listings/index", { allListings: listings });
 });
 
-router.get("/", async (req, res) => {
-  const { category } = req.query;
-  let allListings;
-  if (category) {
-    allListings = await Listing.find({ category });
-  } else {
-    allListings = await Listing.find({});
-  }
-  res.render("listings/index", { allListings });
-});
+
 router.get("/privacy", (req, res) => {
     res.render("listings/privacy");
 });
@@ -39,6 +30,18 @@ router
     .route("/")
     .get(wrapAsync(listingController.index))
     .post(isLoggedIn("You must be logged in to create a listing"),upload.single('listing[image]'),  validateListing,wrapAsync(listingController.create))
+
+
+router.get("/", async (req, res) => {
+  const { category } = req.query;
+  let allListings;
+  if (category) {
+    allListings = await Listing.find({ category });
+  } else {
+    allListings = await Listing.find({});
+  }
+  res.render("listings/index", { allListings });
+});
 
 router.get("/new", isLoggedIn("You must be logged in to create a listing"),listingController.renderNewForm)
 
