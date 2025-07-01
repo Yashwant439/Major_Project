@@ -1,0 +1,265 @@
+<% layout("./layouts/boilerplate.ejs") %>
+     <!-- Particles Background -->
+<% if (success_msg && success_msg.length > 0) { %>
+  <div class="alert success" style="display: block;">
+    <%= success_msg[0] %>
+    <button onclick="this.parentElement.style.display='none';">×</button>
+  </div>
+<% } %>
+
+<% if (error_msg && error_msg.length > 0) { %>
+  <div class="alert error" style="display: block;">
+    <%= error_msg[0] %>
+    <button onclick="this.parentElement.style.display='none';">×</button>
+  </div>
+<% } %>
+
+
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h4>Hi, My Name Is</h4>
+                <h1>Yashwant Kumar Singh.</h1>
+                <h2 id="typing"></h2>
+                <p>I’m a Full-Stack Web Developer with a love for problem-solving, visual storytelling, and building products that matter. Driven by passion, guided by curiosity.</p>
+                <a href="#projects" class="btn-accent">View My Work</a>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="profile-image">
+                    <img src="/img/Yashwant.jpg" alt="Yashwant Singh">
+                </div>
+                <div class="about-text">
+                    <h3>My Journey</h3>
+                    <p>Hey! I'm currently a second-year Computer Science student who's really into Full-Stack Development. I started messing around with code back in school, and ever since then, I've been building fun projects and learning by doing.</p>
+                    <p>These days, I spend most of my time working on websites, learning new tech stacks, and improving my frontend and backend skills. When I’m not coding, you’ll probably find me watching movies, playing chess, or enjoying board games like Ludo with friends and family.</p>
+
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020–2021</div>
+                            <div class="timeline-content">
+                                <h4>High School [CBSE]</h4>
+                                <p>Completed 10th grade with a strong focus on Science and Mathematics.</p>
+                                <p>Score: 88.16%</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2021–2023</div>
+                            <div class="timeline-content">
+                                <h4>Senior Secondary [CBSE]</h4>
+                                <p>Studied Computer Science, Physics, Chemistry, and Mathematics.</p>
+                                <p>Score: 75.3%</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2023–2024</div>
+                            <div class="timeline-content">
+                                <h4>JEE Preparation Year</h4>
+                                <p>Took a dedicated year to prepare for competitive exams like JEE Mains and WBJEE.</p>
+                                <p>JEE:94%ile , WBJEE: RANK- 3060</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024–2028</div>
+                            <div class="timeline-content">
+                                <h4>B.Tech in Computer Science</h4>
+                                <p>Currently pursuing undergraduate degree with a growing interest in full-stack development and modern web technologies.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024–Present</div>
+                            <div class="timeline-content">
+                                <h4>Full-stack Developer</h4>
+                                <p>Building personal and academic projects, exploring real-world problem solving, and contributing to web development communities.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2 class="section-title">My Skill Set</h2>
+            <p class="section-intro">
+                Here’s a glimpse of the tools I use to bring ideas to life—from designing pixel-perfect UIs to building scalable full-stack applications.
+            </p>
+            
+            <div class="skills-container">
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                <h3>HTML5</h3>
+                <p>Crafting clean, semantic, and accessible web structures that stand as the foundation of every great website.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+                <h3>CSS3</h3>
+                <p>Designing sleek, responsive layouts with Flexbox, Grid, and animations that breathe life into the interface.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-js"></i></div>
+                <h3>JavaScript</h3>
+                <p>Making the web interactive and dynamic using ES6+, DOM skills, and async logic that brings apps to life.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-react"></i></div>
+                <h3>React.js</h3>
+                <p>Building reusable components and managing state efficiently to create seamless single-page experiences.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-node-js"></i></div>
+                <h3>Node.js</h3>
+                <p>Handling the server-side with Express, RESTful APIs, and logic that makes the backend tick.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fas fa-database"></i></div>
+                <h3>Databases</h3>
+                <p>Working with MongoDB & MySQL to store, manage, and query data efficiently and securely.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fab fa-bootstrap"></i></div>
+                <h3>Bootstrap</h3>
+                <p>Speeding up development with mobile-first design, responsive layouts, and beautiful prebuilt components.</p>
+                </div>
+
+                <div class="skill-card">
+                <div class="skill-icon"><i class="fas fa-code"></i></div>
+                <h3>Programming Fundamentals</h3>
+                <p>Comfortable with C, C++, Java, and core concepts like DSA, OOPs, and logic building for real-world problems.</p>
+                </div>
+
+            </div>
+        </section>
+
+        
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-container">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="/img/travel-logo.jpg" alt="Travel Explorer">
+                    </div>
+                    <div class="project-content">
+                        <h3>Travel Explorer</h3>
+                        <p>A full-stack travel booking platform with destination guides, hotel booking, and itinerary planning.</p>
+                        <div class="project-tags">
+                            
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                            <span class="project-tag">Express</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Yashwant439/Major_Project" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://wanderlust-we5p.onrender.com/listings" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="/img/e-logo.jpg" alt="E-commerce Clone">
+                    </div>
+                    <div class="project-content">
+                        <h3>E-commerce Website Clone</h3>
+                        <p>A fully responsive frontend clone of a popular e-commerce platform built using only HTML5 and CSS3.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML5</span>
+                            <span class="project-tag">CSS3</span>
+                            
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Yashwant439/Website_Clones" class="project-link"><i class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>I'm currently available for freelance work and open to new opportunities. Whether you have a question or just want to say hi, I'll get back to you as soon as possible!</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Location</h4>
+                                <p>New Delhi, India</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email</h4>
+                                <p>yashwantkumarsingh439@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            
+                        </div> -->
+                    </div>
+                    
+                    <div class="social-contact">
+                        <a href="https://github.com/Yashwant439" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form action="/contact" method="POST">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input name="name" type="text" id="name" placeholder="Enter your name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input name="email" type="email" id="email" placeholder="Enter your email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="subject">Subject</label>
+        <input name="subject" type="text" id="subject" placeholder="Enter subject" required>
+    </div>
+
+    <div class="form-group">
+        <label for="message">Message</label>
+        <textarea name="message" id="message" placeholder="Enter your message" required></textarea>
+    </div>
+
+    <button type="submit" class="btn-accent">Send Message</button>
+</form>
+
+                </div>
+            </div>
+        </section>
+    </div>
+  
