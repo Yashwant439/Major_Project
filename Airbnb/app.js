@@ -13,13 +13,17 @@ const passport = require("passport");
 const ExpressError = require("./public/utils/ExpressError.js");
 
 
+const { sendBookingConfirmation } = require("./public/utils/email");
+
+
 const dbUrl = process.env.ATLASDB_URL
+// const dbUrl = "mongodb://127.0.0.1:27017/wanderlust"
 
 
 // Database connection
 mongoose.connect(dbUrl)
-  .then(() => console.log("DB connected"))
-  .catch(err => console.log("DB connection error:", err));
+.then(() => console.log("DB connected"))
+.catch(err => console.log("DB connection error:", err));
 
 // Passport setup
 require("./passport-setup.js");
@@ -77,10 +81,12 @@ app.use((req, res, next) => {
 const listingRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
 const authRoutes = require("./routes/auth.js");
+const bookingRoutes = require("./routes/booking.js");
 
 app.use("/", authRoutes);
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
+app.use("/listings/:id", bookingRoutes); // Add this line
 
 
 // 404 handler

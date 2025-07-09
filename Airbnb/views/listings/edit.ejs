@@ -1,137 +1,93 @@
-<!-- Leaflet -->
+<% layout("./layouts/boilerplate.ejs") -%>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 
-<% layout("./layouts/boilerplate.ejs") -%>
-    <!-- the above line help krta hai lesser code likhne me  -->
-    <div class="row mt-3">
-        <div class="col-8 offset-2">
-            <h2>Edit your listing:</h2>
-            <form action="/listings/<%= listing._id %>?_method=put" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input id="title" name="listing[title]" placeholder="Enter A Catchy Title" class="form-control" required
-                        value="<%= listing.title %>"></input>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                    <div class="invalid-feedback">
-                        Title required
-                    </div>
-                    
-
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea id="description" name="listing[description]" rows="6" cols="30" class="form-control"
-                        required ><%= listing.description %></textarea>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                    <div class="invalid-feedback">
-                        Description required
-                    </div>
-                </div>
-
-                <div class="mb-3" >
-                    <p>Old Image:</p>
-                    <img src="<%= originalImage %>" style="width: 20rem;" alt="listing_image">
-                </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">Upload New Image <span class="text-muted">(If You Want)</span></label>
-                    <input id="image" name="listing[image]" class="form-control" 
-                        type="file">
-                    <input type="hidden" name="listing[image][url]" value="<%= listing.image.url %>">
-                    <input type="hidden" name="listing[image][filename]" value="<%= listing.image.filename %>">
-
-
-                </div>
-                <div class="row">
-
-                    <div class="mb-3 col-md-4">
-                        <label for="price" class="form-label">Price</label>
-                        <input id="price" name="listing[price]" type="number" placeholder="Enter Valid Price"
-                            class="form-control" required value="<%= listing.price %>">
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                        <div class="invalid-feedback">
-                            Price required
-                        </div>
-                        <div class="mb-3 col-md-8">
-                            <label for="country" class="form-label">Country</label>
-                            <input id="country" name="listing[country]" placeholder="Enter Country" class="form-control"
-                                required value="<%= listing.country %>">
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Country required
-                            </div>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <select class="form-control" id="category" name="listing[category]">
-                                <option>Trending</option>
-                                <option>Room</option>
-                                <option>Amazing Views</option>
-                                <option>Surfing</option>
-                                <option>Amazing Pools</option>
-                                <option>Beach</option>
-                                <option>Cabins</option>
-                                <option>Mountain</option>
-                            </select>
-                        </div>
-
-
-
-
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input id="location" name="listing[location]" placeholder="Enter Location"
-                                class="form-control" required value="<%= listing.location %>">
-
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Location required
-                            </div>
-                            <div id="map-preview" style="height: 300px; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
-                        </div>
-
-                        <button class="btn btn-dark mt-3 edit">Edit</button>
-
-            </form>
-        </div>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow rounded p-4">
+        <h2 class="mb-4 fw-bold text-center">Edit Your Listing</h2>
+        <form action="/listings/<%= listing._id %>?_method=put" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" name="listing[title]" placeholder="Enter a catchy title" class="form-control" required value="<%= listing.title %>">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Title required</div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="listing[description]" rows="5" class="form-control" required><%= listing.description %></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Description required</div>
+          </div>
+          <div class="mb-3">
+            <p>Old Image:</p>
+            <img src="<%= originalImage %>" class="img-fluid rounded mb-2" style="max-width: 20rem;" alt="listing_image">
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Upload New Image <span class="text-muted">(If you want)</span></label>
+            <input id="image" name="listing[image]" class="form-control" type="file">
+            <input type="hidden" name="listing[image][url]" value="<%= listing.image.url %>">
+            <input type="hidden" name="listing[image][filename]" value="<%= listing.image.filename %>">
+          </div>
+          <div class="row">
+            <div class="mb-3 col-md-4">
+              <label for="price" class="form-label">Price</label>
+              <input id="price" name="listing[price]" type="number" placeholder="Enter valid price" class="form-control" required value="<%= listing.price %>">
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Price required</div>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-control" id="category" name="listing[category]" required>
+                <option value="">Select Category</option>
+                <option <%= listing.category === "Trending" ? "selected" : "" %>>Trending</option>
+                <option <%= listing.category === "Room" ? "selected" : "" %>>Room</option>
+                <option <%= listing.category === "Amazing Views" ? "selected" : "" %>>Amazing Views</option>
+                <option <%= listing.category === "Surfing" ? "selected" : "" %>>Surfing</option>
+                <option <%= listing.category === "Amazing Pools" ? "selected" : "" %>>Amazing Pools</option>
+                <option <%= listing.category === "Beach" ? "selected" : "" %>>Beach</option>
+                <option <%= listing.category === "Cabins" ? "selected" : "" %>>Cabins</option>
+                <option <%= listing.category === "Mountain" ? "selected" : "" %>>Mountain</option>
+              </select>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Category required</div>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label for="country" class="form-label">Country</label>
+              <input id="country" name="listing[country]" placeholder="Enter country" class="form-control" required value="<%= listing.country %>">
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Country required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input id="location" name="listing[location]" placeholder="Enter location" class="form-control" required value="<%= listing.location %>">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Location required</div>
+            <div id="map-preview" style="height: 250px; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
+          </div>
+          <button class="btn btn-dark  mt-3" type="submit">Update Listing</button>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
 
-
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 <script>
   let map, marker;
-
   function initMap(lat = 20.5937, lng = 78.9629) {
-    if (map) {
-      map.remove();
-    }
-
+    if (map) map.remove();
     map = L.map('map-preview').setView([lat, lng], 5);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
-
     marker = L.marker([lat, lng]).addTo(map);
   }
-
   async function updateMapFromLocation(locationText) {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationText)}`;
     const res = await fetch(url, { headers: { 'User-Agent': 'wanderlust-app' } });
     const data = await res.json();
-
     if (data.length > 0) {
       const lat = parseFloat(data[0].lat);
       const lon = parseFloat(data[0].lon);
@@ -139,16 +95,23 @@
       marker.setLatLng([lat, lon]);
     }
   }
-
   document.addEventListener("DOMContentLoaded", () => {
-    initMap(); // initialize map with India center
-
+    initMap();
     const locationInput = document.getElementById("location");
     locationInput.addEventListener("change", (e) => {
       const loc = e.target.value;
-      if (loc.length > 3) {
-        updateMapFromLocation(loc);
-      }
+      if (loc.length > 3) updateMapFromLocation(loc);
+    });
+    // Bootstrap validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
     });
   });
 </script>

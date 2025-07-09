@@ -1,37 +1,22 @@
-
-<nav class="navbar navbar-expand-md bg-body-light border-bottom mb-3 sticky-top">
+<nav class="navbar navbar-expand-md shadow sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings">
       <i class="fa-solid fa-compass"></i>
     </a>
-
-    <!-- Toggler for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-      <!-- Left nav -->
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
         <a class="nav-link" href="/listings/new">Add new Listing</a>
       </div>
       <div class="search-box">
-        <nav class="navbar ">
-          <div class="container-fluid Bar">
-
-            <form class="d-flex Bar" role="search" method="GET" action="/listings/search">
-              <input class="form-control me-2 searchBar" name="q" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-
-          </div>
-        </nav>
-
+        <form class="d-flex" role="search" method="GET" action="/listings/search">
+          <input class="form-control me-2 searchBar" name="q" type="search" placeholder="Search" aria-label="Search"/>
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
-
-      <!-- Right nav -->
       <div class="d-flex align-items-center">
         <% if (!currentUser) { %>
           <a class="btn btn-outline-primary me-2" href="/login">Login</a>
@@ -43,4 +28,3 @@
     </div>
   </div>
 </nav>
-

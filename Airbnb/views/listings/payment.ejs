@@ -1,0 +1,50 @@
+<% layout("./layouts/boilerplate.ejs") -%>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow rounded mb-4">
+        <div class="card-header fw-bold">Booking Summary</div>
+        <div class="card-body">
+          <h5><%= listing.title %></h5>
+          <p><strong>Dates:</strong> <%= booking.checkIn.toDateString() %> to <%= booking.checkOut.toDateString() %></p>
+          <p><strong>Guests:</strong> <%= booking.guests %></p>
+          <p><strong>Total:</strong> ₹<%= booking.totalPrice.toLocaleString("en-IN") %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow rounded">
+        <div class="card-header fw-bold">Payment Information</div>
+        <div class="card-body">
+          <form action="/listings/<%= listing._id %>/payment" method="POST" class="needs-validation" novalidate>
+            <input type="hidden" name="bookingId" value="<%= booking._id %>">
+            <div class="mb-3">
+              <label class="form-label" for="cardNumber">Card Number</label>
+              <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+              <div class="invalid-feedback">Please provide a valid Card Number</div>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="expiry">Expiry</label>
+                <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/YY" required>
+                <div class="invalid-feedback">Please provide a valid Expiry</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="cvv">CVV</label>
+                <input type="password" class="form-control" id="cvv" name="cvv" required>
+                <div class="invalid-feedback">Please provide a valid CVV</div>
+              </div>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label" for="nameOnCard">Name on Card</label>
+              <input type="text" class="form-control" id="nameOnCard" name="nameOnCard" required>
+              <div class="invalid-feedback">Please provide a valid Name on Card</div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Confirm Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

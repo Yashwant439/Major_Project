@@ -1,0 +1,66 @@
+<% layout("./layouts/boilerplate.ejs") -%>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow rounded p-4">
+        <h2 class="mb-4 fw-bold">Book - <u><%= listing.title %></u></h2>
+        <form action="/listings/<%= listing._id %>/book" method="POST" class="needs-validation" novalidate>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="checkIn" class="form-label">Check-in Date</label>
+                <input type="date" class="form-control" id="checkIn" name="checkIn" required>
+                <div class="invalid-feedback">Please provide a check-in date.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="checkOut" class="form-label">Check-out Date</label>
+                <input type="date" class="form-control" id="checkOut" name="checkOut" required>
+                <div class="invalid-feedback">Please provide a check-out date.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="guests" class="form-label">Number of Guests</label>
+                <input type="number" class="form-control" id="guests" name="guests" min="1" required>
+                <div class="invalid-feedback">Please provide number of guests.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div class="invalid-feedback">Please provide your full name.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="invalid-feedback">Please provide a valid email.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+                <div class="invalid-feedback">Please provide a phone number.</div>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary mt-4" type="submit">Continue to Payment</button>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
