@@ -41,6 +41,7 @@
               <div class="invalid-feedback">Please provide a valid Name on Card</div>
             </div>
             <button type="submit" class="btn btn-success w-100">Confirm Payment</button>
+            <button type="button" class="btn btn-outline-danger w-100 mt-2" id="cancel-payment-btn">Cancel Payment</button>
           </form>
         </div>
       </div>
@@ -48,3 +49,10 @@
   </div>
 </div>
 
+<script>
+  document.getElementById("cancel-payment-btn").addEventListener("click", function() {
+    if (confirm("Are you sure you want to cancel the payment and return to the home page?")) {
+      window.location.href = "/listings";
+    }
+  });
+</script>
