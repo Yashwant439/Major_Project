@@ -243,7 +243,7 @@ function App() {
               className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
               whileHover={{ scale: 1.05 }}
             >
-              CVWizard
+              CVWizaard
             </motion.h1>
           </div>
           
@@ -463,7 +463,7 @@ function App() {
 
       <footer className="bg-gray-800 text-white py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
-          <p>CVWizard © {new Date().getFullYear()} - Create professional resumes in minutes 😉</p>
+          <p>CVWizaard © {new Date().getFullYear()} - Create professional resumes in minutes 😉</p>
           <p className="mt-2 text-gray-400">All your data stays in your browser - nothing is saved on our servers ✌️</p>
           <p className="mt-2 text-gray-400">Made by Yashwant with ❤️</p>
         </div>
