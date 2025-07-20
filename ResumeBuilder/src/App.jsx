@@ -10,7 +10,7 @@ import ThemeSelector from './components/ThemeSelector';
 import LayoutSelector from './components/LayoutSelector';
 import { FaFileAlt, FaPalette, FaMagic } from 'react-icons/fa';
 import YashwantImg from './assets/Yashwant.jpg'
-
+import './App.css'
 function App() {
   const [activeTab, setActiveTab] = useState('personal');
   const [resumeData, setResumeData] = useState({
