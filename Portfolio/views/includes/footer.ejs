@@ -1,25 +1,53 @@
 <!-- Footer -->
+    </div><!-- close .container -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-code"></i> YKS
-                </div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#skills">Skills</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <div class="footer-social">
-                    <a href="https://github.com/Yashwant439" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <div class="copyright">
-                    &copy; 2025 Yashwant Kumar Singh. All rights reserved.
-                </div>
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <span class="logo-bracket">[</span>YLabs<span class="logo-bracket">]</span>
+                <p class="footer-tagline">Building intelligent software at the intersection of Web & AI.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Lab</a>
+                <a href="#terminal">Terminal</a>
+                <a href="#github">GitHub</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com/Yashwant439" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:yashwantkumarsingh439@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Yashwant Kumar Singh &mdash; Crafted with <span class="heart">❤</span> &amp; code.
             </div>
         </div>
     </footer>
-    
+
+    <!-- AI Chatbot Widget -->
+    <div class="chatbot-fab" id="chatbotFab" title="Ask YAVIS — Yashwant's AI">
+        <img src="/YAVIS.png" alt="YAVIS" class="yavis-avatar-fab">
+        <span class="chatbot-badge">YAVIS</span>
+    </div>
+
+    <div class="chatbot-panel" id="chatbotPanel">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <img src="/YAVIS.png" alt="YAVIS" class="yavis-avatar-panel">
+                <span>YAVIS — AI Assistant</span>
+                <span class="chatbot-status">● Online</span>
+            </div>
+            <button class="chatbot-close" id="chatbotClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="chat-msg bot">
+                <span>👋 Hey! I'm <strong>YAVIS</strong> — Yashwant's AI Virtual Intelligence System. Ask me anything about his skills, projects, or how to hire him!</span>
+            </div>
+        </div>
+        <div class="chatbot-input-row">
+            <input type="text" id="chatbotInput" placeholder="Ask YAVIS anything..." autocomplete="off">
+            <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>

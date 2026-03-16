@@ -1,333 +1,525 @@
 <% layout("./layouts/boilerplate.ejs") %>
-     <!-- Particles Background -->
+
+<!-- Flash Messages -->
 <% if (success_msg && success_msg.length > 0) { %>
-  <div class="alert success" style="display: block;">
+  <div class="alert success" style="display:block;">
     <%= success_msg[0] %>
     <button onclick="this.parentElement.style.display='none';">×</button>
   </div>
 <% } %>
-
 <% if (error_msg && error_msg.length > 0) { %>
-  <div class="alert error" style="display: block;">
+  <div class="alert error" style="display:block;">
     <%= error_msg[0] %>
     <button onclick="this.parentElement.style.display='none';">×</button>
   </div>
 <% } %>
 
-
-        <!-- Home Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h4>Hi, My Name Is</h4>
-                <h1>Yashwant Kumar Singh.</h1>
-                <h2 id="typing"></h2>
-                <p>I’m a Full-Stack Web Developer with a love for problem-solving, visual storytelling, and building products that matter. Driven by passion, guided by curiosity.</p>
-                <a href="#projects" class="btn-accent">View My Work</a>
-            </div>
-        </section>
-        
-        <!-- About Section -->
-        <section id="about">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="profile-image">
-                    <img src="/img/Yashwant.png" alt="Yashwant Singh">
-                </div>
-                <div class="about-text">
-                    <h3>My Journey</h3>
-                    <p>Hey! I'm currently a second-year Computer Science student who's really into Full-Stack Development. I started messing around with code back in school, and ever since then, I've been building fun projects and learning by doing.</p>
-                    <p>These days, I spend most of my time working on websites, learning new tech stacks, and improving my frontend and backend skills. When I’m not coding, you’ll probably find me watching movies, playing chess, or enjoying board games like Ludo with friends and family.</p>
-
-                    
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-year">2020–2021</div>
-                            <div class="timeline-content">
-                                <h4>High School [CBSE]</h4>
-                                <p>Completed 10th grade with a strong focus on Science and Mathematics.</p>
-                                <p>Score: 88.16%</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2021–2023</div>
-                            <div class="timeline-content">
-                                <h4>Senior Secondary [CBSE]</h4>
-                                <p>Studied Computer Science, Physics, Chemistry, and Mathematics.</p>
-                                <p>Score: 75.3%</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2023–2024</div>
-                            <div class="timeline-content">
-                                <h4>JEE Preparation Year</h4>
-                                <p>Took a dedicated year to prepare for competitive exams like JEE Mains and WBJEE.</p>
-                                <p>JEE:94%ile , WBJEE: RANK- 3060</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2024–2028</div>
-                            <div class="timeline-content">
-                                <h4>B.Tech in Computer Science</h4>
-                                <p>Currently pursuing undergraduate degree with a growing interest in full-stack development and modern web technologies.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">May 2025 – November 2025</div>
-                            <div class="timeline-content">
-                                <h4>Intern – Result ERP Portal (GB Pant Okhla Campus)</h4>
-                                <p>Contributing to the Result ERP Portal by handling data cleaning, validation, and optimization for accurate result management, while also developing interactive React.js pages to enhance system functionality and user experience.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-        
-        <!-- Skills Section -->
-        <section id="skills">
-            <h2 class="section-title">My Skill Set</h2>
-            <p class="section-intro">
-                Here’s a glimpse of the tools I use to bring ideas to life—from designing pixel-perfect UIs to building scalable full-stack applications.
-            </p>
-            
-            <div class="skills-container">
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-html5"></i></div>
-                <h3>HTML5</h3>
-                <p>Crafting clean, semantic, and accessible web structures that stand as the foundation of every great website.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
-                <h3>CSS3</h3>
-                <p>Designing sleek, responsive layouts with Flexbox, Grid, and animations that breathe life into the interface.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-js"></i></div>
-                <h3>JavaScript</h3>
-                <p>Making the web interactive and dynamic using ES6+, DOM skills, and async logic that brings apps to life.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-react"></i></div>
-                <h3>React.js</h3>
-                <p>Building reusable components and managing state efficiently to create seamless single-page experiences.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-node-js"></i></div>
-                <h3>Node.js</h3>
-                <p>Handling the server-side with Express, RESTful APIs, and logic that makes the backend tick.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-database"></i></div>
-                <h3>Databases</h3>
-                <p>Working with MongoDB & MySQL to store, manage, and query data efficiently and securely.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fab fa-bootstrap"></i></div>
-                <h3>Bootstrap</h3>
-                <p>Speeding up development with mobile-first design, responsive layouts, and beautiful prebuilt components.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fa-solid fa-wind"></i></div>
-                <h3>Tailwind CSS</h3>
-                <p>Utility-first CSS framework for rapidly building custom, responsive, and modern UIs without writing custom CSS.</p>
-                </div>
-
-                <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-code"></i></div>
-                <h3>Programming Fundamentals</h3>
-                <p>Comfortable with C, C++, Java, and core concepts like DSA, OOPs, and logic building for real-world problems.</p>
-                </div>
-
-            </div>
-        </section>
-
-        
-        <!-- Projects Section -->
-        <section id="projects">
-            <h2 class="section-title">My Projects</h2>
-            <div class="projects-container">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/img/travel-logo.jpg" alt="Travel Explorer">
-                    </div>
-                    <div class="project-content">
-                        <h3>Wanderlust - Travel Explorer</h3>
-                        <p>A full-stack travel booking platform with destination guides, hotel booking, and itinerary planning.</p>
-                        <div class="project-tags">
-                            
-                            <span class="project-tag">Node.js</span>
-                            <span class="project-tag">MongoDB</span>
-                            <span class="project-tag">Express</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Yashwant439/Major_Project" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://wanderlust-we5p.onrender.com/listings" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/img/diabetes-logo.png" alt="diabetes-logo">
-                    </div>
-                    <div class="project-content">
-                        <h3>Advanced Diabetes Patient Management System</h3>
-                        <p>A comprehensive diabetes patient management system featuring AI-powered risk predictions, patient monitoring dashboards, and interactive chat support for doctors and patients.</p>
-
-                        <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">AI/ML</span>
-                            <span class="project-tag">MongoDB</span>
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Node.js</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Yashwant439/diabetesprediction" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://diabetespredictions-vert.vercel.app/" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/img/e-logo.jpg" alt="E-commerce Clone">
-                    </div>
-                    <div class="project-content">
-                        <h3>E-commerce Website Clone</h3>
-                        <p>A fully responsive frontend clone of a popular e-commerce platform built using only HTML5 and CSS3.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML5</span>
-                            <span class="project-tag">CSS3</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Yashwant439/Website_Clones" class="project-link"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/img/weather-logo.jpg" alt="Weather-logo">
-                    </div>
-                    <div class="project-content">
-                        <h3>SkyCast – Weather App</h3>
-                        <p>A responsive React weather app using OpenWeatherMap API to display real-time temperature, humidity, wind, pressure, and more with a clean UI.</p>
-
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">OpenWeatherMap API</span>
-                            <span class="project-tag">CSS</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Yashwant439/Major_Project" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://skycast-iyab.onrender.com/" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/img/cv-logo.png" alt="Weather-logo">
-                    </div>
-                    <div class="project-content">
-                        <h3>CVWizaard  - Smart Resume Builder</h3>
-                        <p>Build professional, customizable resumes effortlessly with real-time previews, elegant templates, powered by React and smooth animations.</p>
-
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Tailwind CSS</span>
-                            <span class="project-tag">Framer Motion</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Yashwant439/Major_Project" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://cvwizaard.netlify.app/" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-        
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Let's Connect</h3>
-                    <p>I'm currently available for freelance work and open to new opportunities. Whether you have a question or just want to say hi, I'll get back to you as soon as possible!</p>
-                    
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Location</h4>
-                                <p>New Delhi, India</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Email</h4>
-                                <p>yashwantkumarsingh439@gmail.com</p>
-                            </div>
-                        </div>
-                        
-                        <!-- <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            
-                        </div> -->
-                    </div>
-                    
-                    <div class="social-contact">
-                        <a href="https://github.com/Yashwant439" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                
-                <div class="contact-form">
-                    <form action="/contact" method="POST">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input name="name" type="text" id="name" placeholder="Enter your name" required>
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-greeter">
+        <span class="dot"></span> Available for opportunities
+      </div>
+      <h1 class="hero-name">Yashwant Singh</h1>
+      <p class="hero-role">AI Builder &amp; <span>Web Developer</span></p>
+      <div class="hero-typed-wrapper">
+        → <span id="typing"></span><span class="hero-cursor"></span>
+      </div>
+      <p class="hero-desc">
+        Building intelligent software at the intersection of <strong>Web Development</strong> and <strong>AI</strong>. Turning ideas into intelligent products that actually matter.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary"><i class="fas fa-flask"></i> Explore Lab</a>
+        <a href="https://github.com/Yashwant439" target="_blank" class="btn-ghost"><i class="fab fa-github"></i> GitHub</a>
+        <a href="#contact" class="btn-ghost"><i class="fas fa-bolt"></i> Let's Build</a>
+      </div>
     </div>
 
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input name="email" type="email" id="email" placeholder="Enter your email" required>
+    <!-- Hero Terminal Card -->
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">yashwant@labs:~</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-cmd">whoami</span></div>
+        <div class="t-out">Yashwant Kumar Singh</div>
+        <div class="t-out">AI Builder · Full-Stack Developer</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-cmd">location</span></div>
+        <div class="t-out">📍 New Delhi, India</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-cmd">skills --top</span></div>
+        <div class="t-out">JavaScript · React · Node.js</div>
+        <div class="t-out">AI APIs · Prompt Engineering</div>
+        <div class="t-out">MongoDB · REST APIs</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-cmd">status</span></div>
+        <div class="t-success">✓ Open to work &amp; collaborations</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-prompt"> _</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- =====================================================
+     ABOUT SECTION
+     ===================================================== -->
+<section id="about">
+  <span class="section-label">// about me</span>
+  <div class="about-grid reveal">
+    <div class="about-image-wrap">
+      <img src="/img/Yashwant.png" alt="Yashwant Singh – AI Builder &amp; Web Developer">
+      <div class="about-image-badge">
+        <span>B.Tech</span>
+        Computer Science
+      </div>
+    </div>
+    <div class="about-text">
+      <h2 class="section-title">The Builder <span>Behind the Code</span></h2>
+      <p>Hey! I'm a second-year CS student who jumped headfirst into <strong>Full-Stack Development</strong> and never looked back. I started tinkering with code in school and realized I love turning blank screens into products people actually use.</p>
+      <p>These days I spend my time building web apps, exploring <strong>AI integrations</strong>, and participating in hackathons. When I'm not in VS Code, I'm probably playing chess or watching a good film.</p>
+      <p>I scored <strong>94th percentile in JEE</strong> and currently intern at <strong>GB Pant Institute</strong> building React.js pages for their ERP portal.</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2020 – 2021</div>
+          <div class="timeline-content">
+            <h4>High School — CBSE 10th</h4>
+            <p>Science & Maths focused. Score: 88.16%</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2021 – 2023</div>
+          <div class="timeline-content">
+            <h4>Senior Secondary — CBSE 12th</h4>
+            <p>Computer Science, Physics, Chemistry, Maths. Score: 75.3%</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023 – 2024</div>
+          <div class="timeline-content">
+            <h4>JEE Preparation Year</h4>
+            <p>JEE: 94th percentile · WBJEE Rank: 3060</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024 – 2028</div>
+          <div class="timeline-content">
+            <h4>B.Tech in Computer Science</h4>
+            <p>Pursuing undergraduate degree. Deep-diving into full-stack & AI.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">May 2025 – Now</div>
+          <div class="timeline-content">
+            <h4>Intern — Result ERP Portal (GB Pant, Okhla)</h4>
+            <p>Building interactive React.js pages · Data validation · Result management system</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     SKILLS SECTION
+     ===================================================== -->
+<section id="skills">
+  <span class="section-label">// skill stack</span>
+  <h2 class="section-title reveal">What I <span>Build With</span></h2>
+  <p class="section-desc reveal">A curated toolkit — from intelligent AI integrations to pixel-perfect frontends and scalable backends.</p>
+
+  <div class="skills-grid">
+    <div class="skill-category reveal">
+      <div class="skill-cat-icon">⚡</div>
+      <div class="skill-cat-title">AI &amp; Intelligence</div>
+      <div class="skill-tags">
+        <span class="skill-tag">OpenAI APIs</span>
+        <span class="skill-tag">Prompt Engineering</span>
+        <span class="skill-tag">AI Integration</span>
+        <span class="skill-tag">LLM Applications</span>
+        <span class="skill-tag">AI/ML Models</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-cat-icon">💻</div>
+      <div class="skill-cat-title">Web Engineering</div>
+      <div class="skill-tags">
+        <span class="skill-tag">JavaScript ES6+</span>
+        <span class="skill-tag">React.js</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Express.js</span>
+        <span class="skill-tag">HTML5 / CSS3</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">Bootstrap</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-cat-icon">🛠</div>
+      <div class="skill-cat-title">Builder Toolkit</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">Git &amp; GitHub</span>
+        <span class="skill-tag">Vercel</span>
+        <span class="skill-tag">Render</span>
+        <span class="skill-tag">C++ / Java</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PROJECT LAB SECTION
+     ===================================================== -->
+<section id="projects">
+  <span class="section-label">// project lab</span>
+  <h2 class="section-title reveal">🚀 The <span>Project Lab</span></h2>
+  <p class="section-desc reveal">Not just projects — each one is a product. Built to solve real problems, shipped to production.</p>
+
+  <div class="projects-lab-grid">
+
+    <!-- Project 1 -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="/img/diabetes-logo.png" alt="Advanced Diabetes Patient Management System">
+        <span class="project-badge">AI / ML</span>
+      </div>
+      <div class="project-body">
+        <h3>🧠 Advanced Diabetes Patient Management</h3>
+        <p>A full-stack AI-powered system featuring risk prediction models, interactive patient dashboards, and intelligent chat support for doctors and patients. Built for the Praxis 2.0 Hackathon.</p>
+        <div class="project-stack">
+          <span>React</span><span>Node.js</span><span>Python</span><span>AI/ML</span><span>MongoDB</span>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/Yashwant439/diabetesprediction" target="_blank" class="project-link outline"><i class="fab fa-github"></i> Code</a>
+          <a href="https://diabetespredictions-vert.vercel.app/" target="_blank" class="project-link filled"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-        <label for="subject">Subject</label>
-        <input name="subject" type="text" id="subject" placeholder="Enter subject" required>
+    <!-- Project 2 -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="/img/travel-logo.jpg" alt="Wanderlust Travel Explorer">
+        <span class="project-badge">Full-Stack</span>
+      </div>
+      <div class="project-body">
+        <h3>🌍 Wanderlust — Travel Explorer</h3>
+        <p>A production-grade full-stack travel booking platform with destination guides, listing management, user authentication, and cloud image hosting. Deployed on Render.</p>
+        <div class="project-stack">
+          <span>Node.js</span><span>MongoDB</span><span>Express</span><span>Cloudinary</span><span>EJS</span>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/Yashwant439/Major_Project" target="_blank" class="project-link outline"><i class="fab fa-github"></i> Code</a>
+          <a href="https://wanderlust-we5p.onrender.com/listings" target="_blank" class="project-link filled"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-        <label for="message">Message</label>
-        <textarea name="message" id="message" placeholder="Enter your message" required></textarea>
+    <!-- Project 3 -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="/img/cv-logo.png" alt="CVWizaard Smart Resume Builder">
+        <span class="project-badge">React App</span>
+      </div>
+      <div class="project-body">
+        <h3>📄 CVWizaard — Smart Resume Builder</h3>
+        <p>Build customizable resumes with real-time previews and elegant templates. Smooth animations with Framer Motion, deployed to Netlify. Zero backend — blazing fast.</p>
+        <div class="project-stack">
+          <span>React</span><span>Tailwind CSS</span><span>Framer Motion</span>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/Yashwant439/Major_Project" target="_blank" class="project-link outline"><i class="fab fa-github"></i> Code</a>
+          <a href="https://cvwizaard.netlify.app/" target="_blank" class="project-link filled"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        </div>
+      </div>
     </div>
 
-    <button type="submit" class="btn-accent">Send Message</button>
-</form>
-
-                </div>
-            </div>
-        </section>
+    <!-- Project 4 -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="/img/weather-logo.jpg" alt="SkyCast Weather App">
+        <span class="project-badge">React + API</span>
+      </div>
+      <div class="project-body">
+        <h3>🌤 SkyCast — Weather Intelligence</h3>
+        <p>A real-time weather app consuming OpenWeatherMap API. Shows temperature, humidity, wind, pressure, and a 5-day forecast with a clean, responsive UI.</p>
+        <div class="project-stack">
+          <span>React</span><span>OpenWeatherMap API</span><span>CSS</span>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/Yashwant439/Major_Project" target="_blank" class="project-link outline"><i class="fab fa-github"></i> Code</a>
+          <a href="https://skycast-iyab.onrender.com/" target="_blank" class="project-link filled"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        </div>
+      </div>
     </div>
-  
+
+    <!-- Project 5 -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="/img/e-logo.jpg" alt="E-Commerce Clone">
+        <span class="project-badge">Frontend</span>
+      </div>
+      <div class="project-body">
+        <h3>🛒 E-Commerce Website Clone</h3>
+        <p>A pixel-perfect responsive frontend clone built with pure HTML5 and CSS3. No frameworks, no shortcuts — just craft. Proves that fundamentals are the foundation.</p>
+        <div class="project-stack">
+          <span>HTML5</span><span>CSS3</span>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/Yashwant439/Website_Clones" target="_blank" class="project-link filled"><i class="fab fa-github"></i> View Code</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     INTERACTIVE TERMINAL SECTION
+     ===================================================== -->
+<section id="terminal">
+  <div class="terminal-section-wrap">
+    <div class="terminal-info">
+      <span class="section-label">// interactive terminal</span>
+      <h2 class="section-title reveal">Try My <span>Terminal</span></h2>
+      <p class="reveal">This isn't just a widget — it's me in a shell. Type commands and explore my skills, projects, and contact info like a developer would.</p>
+      <div class="cmd-hints reveal">
+        <div class="cmd-hint"><code>whoami</code> → Who am I</div>
+        <div class="cmd-hint"><code>skills</code> → Skill stack</div>
+        <div class="cmd-hint"><code>projects</code> → All projects</div>
+        <div class="cmd-hint"><code>contact</code> → Get in touch</div>
+        <div class="cmd-hint"><code>github</code> → GitHub profile</div>
+        <div class="cmd-hint"><code>now</code> → Current build</div>
+        <div class="cmd-hint"><code>help</code> → All commands</div>
+        <div class="cmd-hint"><code>clear</code> → Clear terminal</div>
+      </div>
+    </div>
+    <div class="terminal-interactive reveal">
+      <div class="term-bar">
+        <div class="term-dots">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+        </div>
+        <span class="term-bar-title">yashwant@labs — terminal</span>
+      </div>
+      <div id="termOutput">
+        <div><span class="term-out-prompt">yashwant@labs</span><span style="color:var(--text-faint)">:~$</span> <span class="term-out-cmd">welcome</span></div>
+        <div class="term-out-success">✓ Welcome to Yashwant's interactive terminal.</div>
+        <div class="term-out-result">Type <span style="color:var(--accent)">help</span> to see all available commands.</div>
+        <br>
+      </div>
+      <div class="term-input-row">
+        <span class="term-prompt-sym">yashwant@labs:~$</span>
+        <input type="text" id="termInput" placeholder="type a command..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     GITHUB STATS SECTION
+     ===================================================== -->
+<section id="github">
+  <span class="section-label">// github activity</span>
+  <div class="github-grid">
+    <div>
+      <h2 class="section-title reveal">Building in <span>Public</span></h2>
+      <p class="section-desc reveal" style="margin-bottom:32px;">Consistency over perfection. Every commit is a step forward.</p>
+
+      <div class="stats-row reveal">
+        <div class="stat-card">
+          <span class="stat-num" data-target="10">0</span>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="5">0</span>
+          <div class="stat-label">Technologies</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="4">0</span>
+          <div class="stat-label">Hackathons</div>
+        </div>
+      </div>
+
+      <!-- Real GitHub Contribution Graph -->
+      <div class="gh-contrib-wrap reveal">
+        <div class="gh-contrib-title">GitHub Contribution Activity — Yashwant439</div>
+        <img
+          src="https://ghchart.rshah.org/6366f1/Yashwant439"
+          alt="Yashwant's GitHub contribution chart"
+          style="width:100%; border-radius:8px; opacity:0.9;"
+          onerror="this.style.display='none'; document.getElementById('contribFallback').style.display='block';"
+        >
+        <div id="contribFallback" style="display:none;">
+          <div class="contrib-grid" id="contribGrid"></div>
+          <div class="contrib-legend">
+            <span>Less</span>
+            <div class="legend-cell" style="background:var(--bg-3)"></div>
+            <div class="legend-cell l1"></div>
+            <div class="legend-cell l2"></div>
+            <div class="legend-cell l3"></div>
+            <div class="legend-cell l4"></div>
+            <span>More</span>
+          </div>
+        </div>
+        <a href="https://github.com/Yashwant439" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:0.78rem;color:var(--text-faint);text-decoration:none;font-family:var(--font-mono);transition:color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-faint)'"><i class="fab fa-github"></i> View full profile →</a>
+      </div>
+    </div>
+
+    <!-- <div class="reveal">
+      Now Building
+      <div class="now-building" style="margin-bottom:24px;">
+        <div class="now-building-label">
+          <span class="live-dot"></span> NOW BUILDING
+        </div>
+        <h3>🤖 AI Developer Assistant</h3>
+        <p>An intelligent system that helps developers learn new technologies faster, debug code, and understand complex concepts through natural language conversation.</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Development progress</span><span>65%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0%" data-width="65%"></div></div>
+        </div>
+      </div>
+
+      <div class="now-building">
+        <div class="now-building-label">
+          <span class="live-dot"></span> ALSO BUILDING
+        </div>
+        <h3>🌐 SaaS Developer Tools Platform</h3>
+        <p>A suite of lightweight developer productivity tools — from API testing to code snippet management — all in one sleek interface.</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Development progress</span><span>30%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0%" data-width="30%"></div></div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</section>
+
+<!-- =====================================================
+     BUILDER MINDSET SECTION
+     ===================================================== -->
+<section id="mindset">
+  <span class="section-label">// builder philosophy</span>
+  <div class="mindset-inner">
+    <div class="reveal">
+      <h2 class="section-title">My <span>Builder Mindset</span></h2>
+      <div class="mindset-quote reveal">
+        I don't just write code.<br>
+        I build systems.<br>
+        I build <span style="color:var(--accent)">experiences</span>.<br>
+        I build things that matter.<br><br>
+        <span style="font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-faint); font-weight: 500; letter-spacing: 0;">"I don't care log ky kahenge,
+        <br>I care logs() ky kahenge.☠️"</span>
+      </div>
+    </div>
+
+    <div class="mindset-pillars reveal">
+      <div class="pillar-card">
+        <div class="pillar-icon">🧠</div>
+        <div class="pillar-title">AI-First Thinking</div>
+        <div class="pillar-desc">Every product I build, I ask: how can AI make this 10x better for the user?</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">⚙️</div>
+        <div class="pillar-title">Systems over Features</div>
+        <div class="pillar-desc">I think in architectures. Good code is a system, not a collection of functions.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🚀</div>
+        <div class="pillar-title">Ship It</div>
+        <div class="pillar-desc">A shipped product beats a perfect prototype. I bias toward action and iteration.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🔍</div>
+        <div class="pillar-title">Deep Problem Solving</div>
+        <div class="pillar-desc">I enjoy the hard problems — the ones that need real thinking and creative solutions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     CONTACT SECTION
+     ===================================================== -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <span class="section-label">// let's connect</span>
+      <h2 class="impact-title">Let's Build Something <span>Amazing</span></h2>
+      <p>I'm always excited to collaborate on innovative ideas, hackathons, and startups. If you're building something interesting — let me know. I reply fast.</p>
+
+      <div class="contact-links">
+        <a href="mailto:yashwantkumarsingh439@gmail.com" class="contact-link-item">
+          <div class="contact-link-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div style="font-size:0.78rem;color:var(--text-faint);margin-bottom:2px;">EMAIL</div>
+            <div style="color:var(--text);font-size:0.92rem;">yashwantkumarsingh439@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank" class="contact-link-item">
+          <div class="contact-link-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div>
+            <div style="font-size:0.78rem;color:var(--text-faint);margin-bottom:2px;">LINKEDIN</div>
+            <div style="color:var(--text);font-size:0.92rem;">linkedin.com/in/yashwantkumarsingh</div>
+          </div>
+        </a>
+        <a href="https://github.com/Yashwant439" target="_blank" class="contact-link-item">
+          <div class="contact-link-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div style="font-size:0.78rem;color:var(--text-faint);margin-bottom:2px;">GITHUB</div>
+            <div style="color:var(--text);font-size:0.92rem;">github.com/Yashwant439</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="social-row">
+        <a href="https://github.com/Yashwant439" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/yashwantkumarsingh/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:yashwantkumarsingh439@gmail.com" class="social-btn" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="Yashwant_Resume.pdf" download class="social-btn" aria-label="Download Resume"><i class="fas fa-download"></i></a>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <form action="/contact" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Riya Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="riya@startup.io" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="Let's build something together" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell me about your idea, project, or just say hi..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          <i class="fas fa-paper-plane"></i> &nbsp;Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
