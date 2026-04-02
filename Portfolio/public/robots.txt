@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /chat
+Disallow: /contact
+
+Sitemap: https://yashwant439-portfolio.vercel.app/sitemap.xml

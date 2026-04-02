@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 
 // ── Rate Limiters ──────────────────────────────────────────
 const emailLimiter = rateLimit({
@@ -27,6 +28,17 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// ── Compression (SEO + Performance) ───────────────────
+app.use(compression());
+
+// ── SEO Headers ───────────────────────────────────────
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+});
+
 // ── Middleware ─────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,6 +55,17 @@ app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg   = req.flash('error_msg');
     next();
+});
+
+// ── SEO Routes ─────────────────────────────────────────
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
 // ── Routes ─────────────────────────────────────────────────
