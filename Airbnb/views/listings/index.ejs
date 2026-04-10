@@ -1,87 +1,119 @@
 <% layout("./layouts/boilerplate.ejs") -%>
-   
 
-<div class="container">
-    <div id="filters" class="mb-4">
-        <div class="filter">
-            <a href="/listings?category=Trending" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Room" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Amazing Views" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-binoculars"></i></div>
-            <p>Amazing Views</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Surfing" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Surfing</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Amazing Pools" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-water"></i></div>
-            <p>Amazing Pools</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Beach" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-umbrella-beach"></i></div>
-            <p>Beach</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Cabins" class="text-decoration-none text-dark">
-            <div><i class="fa-brands fa-fort-awesome"></i></div>
-            <p>Cabins</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Mountain" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-mountain-sun"></i></div>
-            <p>Mountains</p>
-            </a>
-        </div>
-        <div class="filter">
-            <a href="/listings?category=Iconic Cities" class="text-decoration-none text-dark">
-            <div><i class="fa-solid fa-tree-city"></i></div>
-            <p>Iconic Cities</p>
-            </a>
-        </div>
-    </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-        <% if (allListings.length === 0) { %>
-            <div class="col text-center text-muted">
-                <h4>No listings found.</h4>
-            </div>
-        <% } else { %>
-      <% allListings.forEach(listing => { %>
-        <div class="col mb-4">
-          <div class="card listing-card shadow rounded">
-            <a href="/listings/<%= listing._id %>">
-              <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
-              <div class="card-img-overlay"></div>
-            </a>
-            <div class="card-body">
-              <p class="card-text mb-2">
-                <b><%= listing.title %></b><br>
-                &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
-              </p>
-              <a href="/listings/<%= listing._id %>/book" class="book-now-btn">Book Now</a>
-            </div>
-          </div>
-        </div>
-      <% }); %>
-    <% } %>
+<div id="filters">
+  <div class="filter <%= category === '' ? 'active' : '' %>">
+    <a href="/listings">
+      <div><i class="fa-solid fa-border-all"></i></div>
+      <p>All</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Trending' ? 'active' : '' %>">
+    <a href="/listings?category=Trending">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Room' ? 'active' : '' %>">
+    <a href="/listings?category=Room">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Amazing Views' ? 'active' : '' %>">
+    <a href="/listings?category=Amazing Views">
+      <div><i class="fa-solid fa-binoculars"></i></div>
+      <p>Amazing Views</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Surfing' ? 'active' : '' %>">
+    <a href="/listings?category=Surfing">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Surfing</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Amazing Pools' ? 'active' : '' %>">
+    <a href="/listings?category=Amazing Pools">
+      <div><i class="fa-solid fa-water"></i></div>
+      <p>Amazing Pools</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Beach' ? 'active' : '' %>">
+    <a href="/listings?category=Beach">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beach</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Cabins' ? 'active' : '' %>">
+    <a href="/listings?category=Cabins">
+      <div><i class="fa-brands fa-fort-awesome"></i></div>
+      <p>Cabins</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Mountain' ? 'active' : '' %>">
+    <a href="/listings?category=Mountain">
+      <div><i class="fa-solid fa-mountain-sun"></i></div>
+      <p>Mountains</p>
+    </a>
+  </div>
+  <div class="filter <%= category === 'Iconic Cities' ? 'active' : '' %>">
+    <a href="/listings?category=Iconic Cities">
+      <div><i class="fa-solid fa-tree-city"></i></div>
+      <p>Iconic Cities</p>
+    </a>
   </div>
 </div>
 
+<% if (allListings.length === 0) { %>
+  <div class="empty-state">
+    <i class="fa-solid fa-compass"></i>
+    <h3>No listings found</h3>
+    <p>Try a different category or search term</p>
+    <a href="/listings" class="btn btn-primary mt-3">View all listings</a>
+  </div>
+<% } else { %>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <% allListings.forEach((listing, i) => { %>
+      <div class="col fade-in stagger-<%= (i % 6) + 1 %>">
+        <div class="listing-card">
+          <div class="card-img-wrapper">
+            <a href="/listings/<%= listing._id %>">
+              <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+              <div class="card-img-overlay-gradient"></div>
+            </a>
+            <% if (locals.currentUser) { %>
+              <button class="wishlist-heart <%= (currentUser.wishlist && currentUser.wishlist.some(w => w.toString() === listing._id.toString())) ? 'active' : '' %>"
+                      onclick="toggleWishlist('<%= listing._id %>', this)" title="Save to wishlist">
+                <i class="fa-heart <%= (currentUser.wishlist && currentUser.wishlist.some(w => w.toString() === listing._id.toString())) ? 'fa-solid' : 'fa-regular' %>"></i>
+              </button>
+            <% } %>
+            <div class="price-badge">&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</div>
+          </div>
+          <div class="card-body">
+            <div class="card-title"><%= listing.title %></div>
+            <div class="card-location"><i class="fa-solid fa-location-dot me-1"></i><%= listing.location %>, <%= listing.country %></div>
+            <div class="card-price">&#8377;<%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></div>
+          </div>
+          <a href="/listings/<%= listing._id %>/book" class="book-now-btn">Book Now</a>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
+
+<script>
+async function toggleWishlist(listingId, btn) {
+  try {
+    const res = await fetch(`/wishlist/${listingId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    const data = await res.json();
+    if (data.status === 'added') {
+      btn.classList.add('active');
+      btn.querySelector('i').className = 'fa-solid fa-heart';
+    } else if (data.status === 'removed') {
+      btn.classList.remove('active');
+      btn.querySelector('i').className = 'fa-regular fa-heart';
+    }
+  } catch(err) {
+    window.location.href = '/login';
+  }
+}
+</script>

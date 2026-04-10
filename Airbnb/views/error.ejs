@@ -1,13 +1,10 @@
 <% layout("./layouts/boilerplate.ejs") -%>
-    <!-- the above line help krta hai lesser code likhne me  -->
 
-    <div class="row mt-3">
-        <div class="alert alert-danger col-5 offset-4 message-box" role="alert" >
-            <p> <%= message %> </p>
-        </div>
-        <div class="cartoon col-5 offset-1">
-            <img style="width: 35rem;" src="<%= imgPath %>" alt="Cartoon Error" />
-
-        </div>
-
-    </div>
+<div class="error-page">
+  <div class="error-code"><%= statusCode || 500 %></div>
+  <h2 class="fw-bold mt-2">Oops! Something went wrong</h2>
+  <p class="error-message"><%= message %></p>
+  <a href="/listings" class="btn btn-primary">
+    <i class="fa-solid fa-house me-1"></i> Back to Home
+  </a>
+</div>

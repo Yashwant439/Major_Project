@@ -1,0 +1,139 @@
+<% layout("./layouts/boilerplate.ejs") -%>
+
+<div class="container mt-4">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="d-flex align-items-center gap-3">
+      <div class="user-avatar" style="width: 56px; height: 56px; font-size: 1.4rem;">
+        <%= user.username.charAt(0).toUpperCase() %>
+      </div>
+      <div>
+        <h3 class="fw-bold mb-0">Welcome, <%= user.username %>!</h3>
+        <p class="mb-0" style="opacity: 0.85;"><%= user.email %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-number"><%= myListings.length %></div>
+        <div class="stat-label">My Listings</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-number"><%= myBookings.length %></div>
+        <div class="stat-label">Bookings</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-number"><%= myReviews.length %></div>
+        <div class="stat-label">Reviews</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="stat-number">₹<%= totalSpent.toLocaleString("en-IN") %></div>
+        <div class="stat-label">Total Spent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Bookings -->
+  <div class="dashboard-section">
+    <h4><i class="fa-solid fa-calendar-check" style="color: var(--accent);"></i> My Bookings</h4>
+    <% if (myBookings.length === 0) { %>
+      <p style="color: var(--text-secondary);">No bookings yet. <a href="/listings" style="color: var(--accent);">Explore listings</a></p>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle" style="font-size: 0.88rem;">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Dates</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% myBookings.forEach(booking => { %>
+              <tr>
+                <td>
+                  <% if (booking.listing) { %>
+                    <a href="/listings/<%= booking.listing._id %>" style="color: var(--text); text-decoration: none; font-weight: 600;">
+                      <%= booking.listing.title %>
+                    </a>
+                  <% } else { %>
+                    <span style="color: var(--text-muted);">[Deleted listing]</span>
+                  <% } %>
+                </td>
+                <td><%= booking.checkIn.toISOString().slice(0,10) %> → <%= booking.checkOut.toISOString().slice(0,10) %></td>
+                <td>₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
+                <td>
+                  <span class="badge <%= booking.paymentStatus === 'completed' ? 'bg-success' : booking.paymentStatus === 'failed' ? 'bg-danger' : 'bg-warning text-dark' %>" style="border-radius: 2rem;">
+                    <%= booking.paymentStatus %>
+                  </span>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- My Listings -->
+  <div class="dashboard-section">
+    <h4><i class="fa-solid fa-house" style="color: var(--accent);"></i> My Listings</h4>
+    <% if (myListings.length === 0) { %>
+      <p style="color: var(--text-secondary);">You haven't listed any places yet. <a href="/listings/new" style="color: var(--accent);">Host your place</a></p>
+    <% } else { %>
+      <div class="row g-3">
+        <% myListings.forEach(listing => { %>
+          <div class="col-md-4">
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none">
+              <div class="listing-card" style="margin-bottom: 0;">
+                <div class="card-img-wrapper">
+                  <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+                </div>
+                <div class="card-body">
+                  <div class="card-title"><%= listing.title %></div>
+                  <div class="card-price">₹<%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Wishlist -->
+  <div class="dashboard-section">
+    <h4><i class="fa-solid fa-heart" style="color: var(--accent);"></i> Wishlist</h4>
+    <% if (!user.wishlist || user.wishlist.length === 0) { %>
+      <p style="color: var(--text-secondary);">Your wishlist is empty. <a href="/listings" style="color: var(--accent);">Explore listings</a></p>
+    <% } else { %>
+      <div class="row g-3">
+        <% user.wishlist.forEach(listing => { %>
+          <div class="col-md-4">
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none">
+              <div class="listing-card" style="margin-bottom: 0;">
+                <div class="card-img-wrapper">
+                  <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+                </div>
+                <div class="card-body">
+                  <div class="card-title"><%= listing.title %></div>
+                  <div class="card-price">₹<%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</div>

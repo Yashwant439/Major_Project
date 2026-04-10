@@ -1,46 +1,60 @@
-
 <% layout("./layouts/boilerplate.ejs") -%>
 
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow rounded p-4">
-
-      <h2 class="text-center">Login</h2>
-       
-      <form action="/login" method="POST" class="needs-validation" novalidate>
-        <div class="mb-3">
-          <label class="form-label" for="username">Username or Email</label>
-          <input type="text" name="username" class="form-control" required>
-          <div class="valid-feedback">
-              Looks good!
-          </div>
-          <div class="invalid-feedback">
-              Username or Email required!
-          </div>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label" for="password">Password</label>
-          <input type="password" name="password" class="form-control" required>
-          <div class="valid-feedback">
-              Looks good!
-          </div>
-          <div class="invalid-feedback">
-              Password required!
-          </div>
-        </div>
-        
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-      </form>
-      
-      <div class="mt-3 text-center">
-        <p>Don't have an account? <a href="/register">Register</a></p>
-        <a href="/auth/google" class="btn btn-danger mt-2">
-          <i class="fab fa-google"></i> Login with Google
-        </a>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="row g-0">
+      <div class="col-md-5 auth-illustration">
+        <i class="fa-solid fa-compass"></i>
+        <h2>Welcome back!</h2>
+        <p>Sign in to continue your journey with WanderLust</p>
       </div>
+      <div class="col-md-7 auth-form-section">
+        <h3 class="auth-title">Log in</h3>
+
+        <a href="/auth/google" class="google-btn mb-3">
+          <i class="fab fa-google"></i>
+          Continue with Google
+        </a>
+
+        <div class="divider">or</div>
+
+        <form action="/login" method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username" required>
+            <div class="invalid-feedback">Username is required</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <div style="position: relative;">
+              <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword()">
+                <i class="fa-regular fa-eye" id="toggleIcon"></i>
+              </button>
+            </div>
+            <div class="invalid-feedback">Password is required</div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </form>
+
+        <p class="mt-3 text-center" style="font-size: 0.9rem; color: var(--text-secondary);">
+          Don't have an account? <a href="/register" style="color: var(--accent); font-weight: 600; text-decoration: none;">Sign up</a>
+        </p>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+function togglePassword() {
+  const pw = document.getElementById('password');
+  const icon = document.getElementById('toggleIcon');
+  if (pw.type === 'password') {
+    pw.type = 'text';
+    icon.className = 'fa-regular fa-eye-slash';
+  } else {
+    pw.type = 'password';
+    icon.className = 'fa-regular fa-eye';
+  }
+}
+</script>

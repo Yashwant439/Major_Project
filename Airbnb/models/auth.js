@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require("passport-local-mongoose");
@@ -6,7 +5,15 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  googleId: String  
+  googleId: String,
+  wishlist: [{
+    type: Schema.Types.ObjectId,
+    ref: "Listing",
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.plugin(passportLocalMongoose);

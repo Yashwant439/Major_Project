@@ -1,20 +1,36 @@
 <footer>
-  <div class="f-info">
-    <div class="f-info-socials">
-      <a href="mailto:singhyashwant439@gmail.com" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
-        <i class="fa-solid fa-envelope"></i>
-      </a>
-      <a href="https://github.com/Yashwant439?tab=repositories" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-github"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/yashwantkumarsingh" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-linkedin"></i>
-      </a>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>WanderLust</h5>
+      <p style="color: var(--text-secondary); font-size: 0.88rem; margin: 0;">
+        Discover unique stays and unforgettable experiences around the world.
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:singhyashwant439@gmail.com" target="_blank" rel="noopener"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://github.com/Yashwant439" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/yashwantkumarsingh" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
     </div>
-    <div class="f-info-brand">&copy; WanderLust Private Limited</div>
-    <div class="f-info-links">
-      <a href="/listings/privacy">Privacy</a>
-      <a href="/listings/terms">Terms</a>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="/listings?category=Trending">Trending</a>
+      <a href="/listings?category=Beach">Beach</a>
+      <a href="/listings?category=Mountain">Mountains</a>
+      <a href="/listings?category=Iconic Cities">Iconic Cities</a>
     </div>
+    <div class="footer-col">
+      <h5>Hosting</h5>
+      <a href="/listings/new">Host your place</a>
+      <a href="/listings">Browse listings</a>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <a href="/listings/privacy">Privacy Policy</a>
+      <a href="/listings/terms">Terms of Service</a>
+      <a href="mailto:singhyashwant439@gmail.com">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; <%= new Date().getFullYear() %> WanderLust Private Limited. All rights reserved.
   </div>
 </footer>

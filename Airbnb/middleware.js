@@ -1,11 +1,12 @@
-const Listing = require("./models/listing.js")
-const Review = require("./models/review.js")
-const ExpressError = require("./public/utils/ExpressError.js")
-const {listingSchema, reviewSchema} = require("./schema.js")
+const Listing = require("./models/listing.js");
+const Review = require("./models/review.js");
+const ExpressError = require("./public/utils/ExpressError.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
+
 module.exports.isLoggedIn = (customMessage = "You must be logged in") => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {
-      req.session.redirectUrl = req.originalUrl
+      req.session.redirectUrl = req.originalUrl;
       req.flash("error", customMessage);
       return res.redirect("/login");
     }
@@ -13,61 +14,65 @@ module.exports.isLoggedIn = (customMessage = "You must be logged in") => {
   };
 };
 
-
-module.exports.saveRedirectUrl = (req,res,next)=>{
-  if(req.session.redirectUrl){
-    res.locals.redirectUrl = req.session.redirectUrl
+module.exports.saveRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
   }
-  next()
-}
+  next();
+};
 
-
-module.exports.isOwner = async(req,res,next)=>{
-  let {id} = req.params
-  let listing = await Listing.findById(id)
-  if(!listing.owner._id.equals(res.locals.currentUser._id)){
-    req.flash("error", "Permission Needed")
-    return res.redirect(`/listings/${id}`)
+module.exports.isOwner = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing not found");
+      return res.redirect("/listings");
+    }
+    if (!listing.owner._id.equals(res.locals.currentUser._id)) {
+      req.flash("error", "You don't have permission to do that");
+      return res.redirect(`/listings/${id}`);
+    }
+    next();
+  } catch (err) {
+    next(err);
   }
-  next()
+};
 
-}
-
-
-
-//validate the schema 
 module.exports.validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body)
-    // console.log(error._original.listing)
-    if (error) {
-        throw new ExpressError(error, 400, "https://img.freepik.com/free-vector/flat-design-no-data-illustration_23-2150527142.jpg?ga=GA1.1.122485610.1750443875&semt=ais_hybrid&w=740")
-    } else {
-        next()
-    }
-
-}
-
-//validate Review
-module.exports.validateReview = (req,res,next)=>{
-    let {error}= reviewSchema.validate(req.body)
-    // console.log(error._original.review)
-    if(error){
-        throw new ExpressError(error,400,"https://img.freepik.com/free-vector/flat-design-no-data-illustration_23-2150527142.jpg?ga=GA1.1.122485610.1750443875&semt=ais_hybrid&w=740")
-    }else{
-        next()
-    }
-    
-}
-
-
-
-module.exports.isReviewAuthor = async(req,res,next)=>{
-  let {id ,reviewId} = req.params
-  let review = await Review.findById(reviewId)
-  if(!review.author.equals(res.locals.currentUser._id)){
-    req.flash("error", "You are not the author")
-    return res.redirect(`/listings/${id}`)
+  const { error } = listingSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(", ");
+    req.flash("error", msg);
+    return res.redirect("/listings/new");
   }
-  next()
+  next();
+};
 
-}
+module.exports.validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(", ");
+    req.flash("error", msg);
+    return res.redirect("back");
+  }
+  next();
+};
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  try {
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      req.flash("error", "Review not found");
+      return res.redirect(`/listings/${id}`);
+    }
+    if (!review.author.equals(res.locals.currentUser._id)) {
+      req.flash("error", "You are not the author of this review");
+      return res.redirect(`/listings/${id}`);
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+};

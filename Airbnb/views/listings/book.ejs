@@ -1,66 +1,108 @@
 <% layout("./layouts/boilerplate.ejs") -%>
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow rounded p-4">
-        <h2 class="mb-4 fw-bold">Book - <u><%= listing.title %></u></h2>
+
+<div class="container mt-4">
+  <div class="row justify-content-center g-4">
+    <!-- Booking Form -->
+    <div class="col-lg-7">
+      <div class="form-card">
+        <h2 class="fw-bold mb-1">Reserve your stay</h2>
+        <p style="color: var(--text-secondary);">at <strong><%= listing.title %></strong></p>
+        <hr>
         <form action="/listings/<%= listing._id %>/book" method="POST" class="needs-validation" novalidate>
-        <div class="row g-3">
+          <div class="row g-3">
             <div class="col-md-6">
-                <label for="checkIn" class="form-label">Check-in Date</label>
-                <input type="date" class="form-control" id="checkIn" name="checkIn" required>
-                <div class="invalid-feedback">Please provide a check-in date.</div>
+              <label for="checkIn" class="form-label">Check-in</label>
+              <input type="date" class="form-control" id="checkIn" name="checkIn" required min="<%= new Date().toISOString().split('T')[0] %>">
+              <div class="invalid-feedback">Check-in date is required</div>
             </div>
-            
             <div class="col-md-6">
-                <label for="checkOut" class="form-label">Check-out Date</label>
-                <input type="date" class="form-control" id="checkOut" name="checkOut" required>
-                <div class="invalid-feedback">Please provide a check-out date.</div>
+              <label for="checkOut" class="form-label">Check-out</label>
+              <input type="date" class="form-control" id="checkOut" name="checkOut" required>
+              <div class="invalid-feedback">Check-out date is required</div>
             </div>
-            
             <div class="col-md-6">
-                <label for="guests" class="form-label">Number of Guests</label>
-                <input type="number" class="form-control" id="guests" name="guests" min="1" required>
-                <div class="invalid-feedback">Please provide number of guests.</div>
+              <label for="guests" class="form-label">Guests</label>
+              <input type="number" class="form-control" id="guests" name="guests" min="1" max="16" value="1" required>
+              <div class="invalid-feedback">At least 1 guest</div>
             </div>
-            
             <div class="col-md-6">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-                <div class="invalid-feedback">Please provide your full name.</div>
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+              <div class="invalid-feedback">Full name is required</div>
             </div>
-            
             <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-                <div class="invalid-feedback">Please provide a valid email.</div>
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+              <div class="invalid-feedback">Valid email is required</div>
             </div>
-            
             <div class="col-md-6">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
-                <div class="invalid-feedback">Please provide a phone number.</div>
+              <label for="phone" class="form-label">Phone</label>
+              <input type="tel" class="form-control" id="phone" name="phone" required>
+              <div class="invalid-feedback">Phone is required</div>
             </div>
+          </div>
+          <button class="btn btn-primary w-100 mt-4" type="submit">
+            <i class="fa-solid fa-lock me-1"></i> Continue to Payment
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Price Summary Sidebar -->
+    <div class="col-lg-5">
+      <div class="booking-summary" style="position: sticky; top: 90px;">
+        <div class="booking-summary-header">
+          <i class="fa-solid fa-receipt me-2"></i>Price Breakdown
         </div>
-        
-        <button class="btn btn-primary mt-4" type="submit">Continue to Payment</button>
-    </form>
+        <div class="booking-summary-body">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img src="<%= listing.image.url %>" alt="<%= listing.title %>" style="width: 80px; height: 60px; object-fit: cover; border-radius: 0.5rem;">
+            <div>
+              <strong><%= listing.title %></strong>
+              <div style="font-size: 0.82rem; color: var(--text-secondary);"><%= listing.location %></div>
+            </div>
+          </div>
+          <hr>
+          <div class="price-row">
+            <span>&#8377;<%= listing.price.toLocaleString("en-IN") %> × <span id="nightCount">0</span> nights</span>
+            <span id="basePrice">₹0</span>
+          </div>
+          <div class="price-row">
+            <span>Taxes & fees (18%)</span>
+            <span id="taxAmount">₹0</span>
+          </div>
+          <div class="price-row total">
+            <span>Total</span>
+            <span id="totalPrice">₹0</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 <script>
-(() => {
-  'use strict'
-  const forms = document.querySelectorAll('.needs-validation')
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
+const pricePerNight = <%= listing.price %>;
+const checkInEl = document.getElementById('checkIn');
+const checkOutEl = document.getElementById('checkOut');
+
+function updatePrice() {
+  const ci = new Date(checkInEl.value);
+  const co = new Date(checkOutEl.value);
+  if (ci && co && co > ci) {
+    const nights = Math.ceil((co - ci) / (1000 * 60 * 60 * 24));
+    const base = pricePerNight * nights;
+    const tax = Math.round(base * 0.18);
+    const total = base + tax;
+    document.getElementById('nightCount').textContent = nights;
+    document.getElementById('basePrice').textContent = '₹' + base.toLocaleString('en-IN');
+    document.getElementById('taxAmount').textContent = '₹' + tax.toLocaleString('en-IN');
+    document.getElementById('totalPrice').textContent = '₹' + total.toLocaleString('en-IN');
+  }
+}
+checkInEl.addEventListener('change', () => {
+  checkOutEl.min = checkInEl.value;
+  updatePrice();
+});
+checkOutEl.addEventListener('change', updatePrice);
 </script>
