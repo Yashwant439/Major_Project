@@ -50,25 +50,91 @@ if (toggleBtn) {
   });
 }
 
-// ── Navbar Scroll Effect ──
+// ── Navbar Scroll Effect & Reveal ──
 let lastScroll = 0;
 window.addEventListener('scroll', () => {
   const navbar = document.querySelector('.navbar');
   if (!navbar) return;
-  if (window.scrollY > 10) {
+  
+  const currentScroll = window.scrollY;
+  
+  if (currentScroll > 10) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
   }
+  
+  lastScroll = currentScroll;
 }, { passive: true });
 
-// ── Close User Menu on Outside Click ──
+// ── User Menu Toggle ──
+const closeUserMenu = () => {
+  const menu = document.getElementById('userMenu');
+  const menuBtn = document.getElementById('userMenuBtn');
+  if (menu) menu.classList.remove('open');
+  if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const menu = document.getElementById('userMenu');
+  const menuBtn = document.getElementById('userMenuBtn');
+  if (!menu || !menuBtn) return;
+
+  menuBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const opened = menu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(opened));
+  });
+});
+
 document.addEventListener('click', (e) => {
   const menu = document.getElementById('userMenu');
   if (menu && !menu.contains(e.target)) {
-    menu.classList.remove('open');
+    closeUserMenu();
   }
 });
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeUserMenu();
+  }
+});
+
+// ── Professional Toast Notifications ──
+function showToast(message, type = 'success', duration = 3000) {
+  const container = document.querySelector('.toast-container') || createToastContainer();
+  const toast = document.createElement('div');
+  toast.className = `toast-msg toast-${type}`;
+  
+  const icons = {
+    success: '<i class="fas fa-check-circle toast-icon"></i>',
+    error: '<i class="fas fa-exclamation-circle toast-icon"></i>',
+    info: '<i class="fas fa-info-circle toast-icon"></i>'
+  };
+  
+  toast.innerHTML = `
+    ${icons[type] || icons.info}
+    <span>${message}</span>
+    <button class="toast-close" onclick="this.parentElement.classList.add('toast-exit'); setTimeout(() => this.parentElement.remove(), 300)">
+      <i class="fas fa-times"></i>
+    </button>
+  `;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('toast-exit');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+function createToastContainer() {
+  const container = document.createElement('div');
+  container.className = 'toast-container';
+  document.body.appendChild(container);
+  return container;
+}
 
 // ── Scroll Reveal Animation (Intersection Observer) ──
 const observerOptions = {
@@ -113,17 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ── Button Ripple Effect ──
+// ── Enhanced Button Ripple Effect ──
 document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.btn');
+  const btn = e.target.closest('.btn, .btn-primary, .btn-success, .book-now-btn');
   if (!btn) return;
+  
   const ripple = document.createElement('span');
   const rect = btn.getBoundingClientRect();
   const size = Math.max(rect.width, rect.height);
   ripple.style.cssText = `
     position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
     width: ${size}px;
     height: ${size}px;
     left: ${e.clientX - rect.left - size/2}px;
@@ -132,17 +199,60 @@ document.addEventListener('click', (e) => {
     animation: ripple-anim 0.6s ease-out;
     pointer-events: none;
   `;
+  
   btn.style.position = 'relative';
   btn.style.overflow = 'hidden';
   btn.appendChild(ripple);
+  
   setTimeout(() => ripple.remove(), 600);
 });
 
-// Add ripple keyframes
+// ── Add ripple keyframes ──
+if (!document.querySelector('style[data-ripple]')) {
+  const style = document.createElement('style');
+  style.setAttribute('data-ripple', 'true');
+  style.textContent = `
+    @keyframes ripple-anim {
+      to { 
+        transform: scale(2.5); 
+        opacity: 0; 
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ── Flash Message Auto-Dismiss ──
+document.addEventListener('DOMContentLoaded', () => {
+  const alerts = document.querySelectorAll('.alert');
+  alerts.forEach(alert => {
+    setTimeout(() => {
+      alert.style.animation = 'fadeOut 0.3s ease-out forwards';
+      setTimeout(() => alert.remove(), 300);
+    }, 4000);
+  });
+});
+
+// ── Smooth Scroll ──
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href !== '#' && document.querySelector(href)) {
+      e.preventDefault();
+      document.querySelector(href).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
+
+// ── Add fade out animation ──
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes ripple-anim {
-    to { transform: scale(2.5); opacity: 0; }
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
   }
 `;
 document.head.appendChild(style);

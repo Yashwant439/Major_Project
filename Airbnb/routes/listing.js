@@ -1,11 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../public/utils/wrapAsync.js");
-const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing, validateListingImage } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
-const upload = multer({ storage });
+const ExpressError = require("../public/utils/ExpressError.js");
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      return cb(null, true);
+    }
+    cb(new ExpressError("Only image files are allowed", 400));
+  },
+});
 
 // Search
 router.get("/search", wrapAsync(listingController.search));
@@ -20,6 +31,7 @@ router.route("/")
   .post(
     isLoggedIn("You must be logged in to create a listing"),
     upload.single("listing[image]"),
+    validateListingImage,
     validateListing,
     wrapAsync(listingController.create)
   );

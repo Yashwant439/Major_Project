@@ -32,20 +32,26 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
+  const listingData = req.body.listing || {};
+  if (!req.file) {
+    req.flash("error", "Image upload is required to create a listing");
+    return res.redirect("/listings/new");
+  }
+
   const url = req.file.path;
   const filename = req.file.filename;
-  const { location } = req.body.listing;
-  let lat = req.body.listing.lat;
-  let lng = req.body.listing.lng;
+  const { location } = listingData;
+  const lat = Number.parseFloat(listingData.lat);
+  const lng = Number.parseFloat(listingData.lng);
 
   let geometry;
-  if (lat && lng) {
-    geometry = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
+  if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    geometry = { type: "Point", coordinates: [lng, lat] };
   } else {
     geometry = await geocodeLocation(location);
   }
 
-  const newListing = new Listing(req.body.listing);
+  const newListing = new Listing(listingData);
   newListing.geometry = geometry || { type: "Point", coordinates: [0, 0] };
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
@@ -68,18 +74,19 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.update = async (req, res) => {
   const { id } = req.params;
-  const { location } = req.body.listing;
-  let lat = req.body.listing.lat;
-  let lng = req.body.listing.lng;
+  const listingData = req.body.listing || {};
+  const { location } = listingData;
+  const lat = Number.parseFloat(listingData.lat);
+  const lng = Number.parseFloat(listingData.lng);
 
   let geometry;
-  if (lat && lng) {
-    geometry = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
+  if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    geometry = { type: "Point", coordinates: [lng, lat] };
   } else {
     geometry = await geocodeLocation(location);
   }
 
-  const updated = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+  const updated = await Listing.findByIdAndUpdate(id, { ...listingData }, { new: true });
   if (!updated) {
     req.flash("error", "Listing not found");
     return res.redirect("/listings");
@@ -92,10 +99,10 @@ module.exports.update = async (req, res) => {
       url: req.file.path,
       filename: req.file.filename,
     };
-  } else if (req.body.listing.image && req.body.listing.image.url) {
+  } else if (listingData.image && listingData.image.url) {
     updated.image = {
-      url: req.body.listing.image.url,
-      filename: req.body.listing.image.filename,
+      url: listingData.image.url,
+      filename: listingData.image.filename,
     };
   }
 

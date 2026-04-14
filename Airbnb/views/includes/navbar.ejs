@@ -22,7 +22,7 @@
         <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode">
           <i class="fas fa-moon"></i>
         </button>
-        <% if (!locals.currentUser) { %>
+        <% if (!isAuthenticated && !currentUser) { %>
           <a class="nav-btn nav-btn-outline" href="/login">Log in</a>
           <a class="nav-btn nav-btn-primary" href="/register">Sign up</a>
         <% } else { %>
@@ -30,10 +30,10 @@
             <i class="fa-regular fa-heart"></i>
           </a>
           <div class="user-menu" id="userMenu">
-            <button class="user-menu-btn" onclick="document.getElementById('userMenu').classList.toggle('open')">
+            <button type="button" class="user-menu-btn" id="userMenuBtn" aria-haspopup="true" aria-expanded="false">
               <i class="fa-solid fa-bars" style="font-size: 0.8rem;"></i>
               <div class="user-avatar">
-                <%= currentUser.username.charAt(0).toUpperCase() %>
+                <%= ((currentUser && (currentUser.username || currentUser.email)) || "U").charAt(0).toUpperCase() %>
               </div>
             </button>
             <div class="user-dropdown">

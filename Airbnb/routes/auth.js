@@ -27,10 +27,10 @@ router.get("/auth/google", passport.authenticate("google", {
 }));
 
 // Google callback
-router.get("/auth/google/callback",saveRedirectUrl, passport.authenticate("google", {
+router.get("/auth/google/callback", passport.authenticate("google", {
   failureRedirect: "/login",
   failureFlash: "Google login failed"
-}), authController.handleGoogleLogin);
+}), saveRedirectUrl, authController.handleGoogleLogin);
 
 // Logout
 router.get("/logout", authController.logout);

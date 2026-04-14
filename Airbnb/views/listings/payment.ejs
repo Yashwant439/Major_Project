@@ -71,36 +71,57 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+  const razorpayKey = "<%= razorpayKeyId || '' %>";
+  if (!razorpayKey) {
+    alert('Payment service is temporarily unavailable. Please try again later.');
+    window.location.href = '/listings/<%= listing._id %>/book';
+  }
+
+  // Dynamic Loading Overlay
+  const showLoader = () => {
+    const loaderHtml = `
+      <div id="payment-loader" style="position:fixed; inset:0; background:rgba(255,255,255,0.9); backdrop-filter:blur(10px); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; animation:fadeIn 0.3s ease;">
+        <div class="spinner-border" style="color:var(--accent); width:3rem; height:3rem;" role="status"></div>
+        <h4 class="mt-4 fw-bold" style="color:var(--text);">Verifying Payment</h4>
+        <p style="color:var(--text-secondary);">Please don't close or refresh this window.</p>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', loaderHtml);
+  };
+
   const options = {
-    key: "<%= razorpayKeyId %>",
+    key: razorpayKey,
     amount: "<%= order.amount %>",
     currency: "INR",
     name: "WanderLust",
     description: "Booking: <%= listing.title %>",
     order_id: "<%= order.id %>",
-    handler: function (response) {
-      // Send verification to server
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = '/listings/<%= listing._id %>/verify-payment';
+    handler: async function (response) {
+      showLoader();
+      try {
+        const payload = {
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          bookingId: '<%= booking._id %>'
+        };
 
-      const fields = {
-        razorpay_order_id: response.razorpay_order_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-        bookingId: '<%= booking._id %>'
-      };
-
-      for (const [key, value] of Object.entries(fields)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
+        const res = await fetch('/listings/<%= listing._id %>/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        if(data.redirectUrl) {
+           window.location.href = data.redirectUrl;
+        } else {
+           window.location.href = '/listings';
+        }
+      } catch (err) {
+        console.error("Payment verification failed locally", err);
+        window.location.href = '/listings';
       }
-
-      document.body.appendChild(form);
-      form.submit();
     },
     prefill: {
       name: "<%= booking.name %>",
@@ -112,25 +133,28 @@
     },
     modal: {
       ondismiss: function() {
-        // Payment cancelled
+        // Payment modal closed by user
       }
     }
   };
 
   const rzp = new Razorpay(options);
-  rzp.on('payment.failed', function (response) {
-    fetch('/listings/<%= listing._id %>/payment-failed', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bookingId: '<%= booking._id %>' })
-    }).then(() => {
-      alert('Payment failed. Please try again.');
+  rzp.on('payment.failed', async function (response) {
+    try {
+      const res = await fetch('/listings/<%= listing._id %>/payment-failed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: '<%= booking._id %>' })
+      });
+      const data = await res.json();
+      if(data.redirectUrl) window.location.href = data.redirectUrl;
+    } catch(e) {
       window.location.href = '/listings';
-    });
+    }
   });
 
   document.getElementById('rzp-btn').onclick = function(e) {
-    rzp.open();
     e.preventDefault();
+    rzp.open();
   };
 </script>

@@ -22,7 +22,8 @@ module.exports.handleRegistration = async (req, res) => {
         return res.redirect("/login");
       }
       req.flash("success", "Registration successful!");
-      let redirectUrl = res.locals.redirectUrl || "/listings"
+      const redirectUrl = res.locals.redirectUrl || "/listings";
+      delete req.session.redirectUrl;
       res.redirect(redirectUrl);
     });
   } catch (err) {
@@ -37,13 +38,15 @@ module.exports.renderLoginForm = (req, res) => {
 
 module.exports.handleLocalLogin =((req, res) => {
   req.flash("success", "Login successful!");
-  let redirectUrl = res.locals.redirectUrl || "/listings"
+  const redirectUrl = res.locals.redirectUrl || "/listings";
+  delete req.session.redirectUrl;
   res.redirect(redirectUrl);
 })
 
 module.exports.handleGoogleLogin = (req, res) => {
   req.flash("success", "Google login successful!");
-  let redirectUrl = res.locals.redirectUrl || "/listings"
+  const redirectUrl = res.locals.redirectUrl || "/listings";
+  delete req.session.redirectUrl;
   res.redirect(redirectUrl);
 }
 

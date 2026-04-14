@@ -3,6 +3,15 @@ const Review = require("./models/review.js");
 const ExpressError = require("./public/utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./schema.js");
 
+module.exports.setCommonLocals = (req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user || null;
+  res.locals.isAuthenticated =
+    typeof req.isAuthenticated === "function" ? req.isAuthenticated() : false;
+  next();
+};
+
 module.exports.isLoggedIn = (customMessage = "You must be logged in") => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -29,7 +38,8 @@ module.exports.isOwner = async (req, res, next) => {
       req.flash("error", "Listing not found");
       return res.redirect("/listings");
     }
-    if (!listing.owner._id.equals(res.locals.currentUser._id)) {
+    const ownerId = listing.owner && listing.owner._id ? listing.owner._id : listing.owner;
+    if (!res.locals.currentUser || !ownerId.equals(res.locals.currentUser._id)) {
       req.flash("error", "You don't have permission to do that");
       return res.redirect(`/listings/${id}`);
     }
@@ -44,6 +54,15 @@ module.exports.validateListing = (req, res, next) => {
   if (error) {
     const msg = error.details.map(el => el.message).join(", ");
     req.flash("error", msg);
+    return res.redirect("/listings/new");
+  }
+  next();
+};
+
+module.exports.validateListingImage = (req, res, next) => {
+  const existingImageUrl = req.body?.listing?.image?.url;
+  if (!req.file && !existingImageUrl) {
+    req.flash("error", "Please upload a valid listing image");
     return res.redirect("/listings/new");
   }
   next();

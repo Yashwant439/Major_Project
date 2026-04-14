@@ -80,9 +80,9 @@
               <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
               <div class="card-img-overlay-gradient"></div>
             </a>
-            <% if (locals.currentUser) { %>
+            <% if (currentUser) { %>
               <button class="wishlist-heart <%= (currentUser.wishlist && currentUser.wishlist.some(w => w.toString() === listing._id.toString())) ? 'active' : '' %>"
-                      onclick="toggleWishlist('<%= listing._id %>', this)" title="Save to wishlist">
+                      onclick="toggleWishlist(event, '<%= listing._id %>', this)" title="Save to wishlist">
                 <i class="fa-heart <%= (currentUser.wishlist && currentUser.wishlist.some(w => w.toString() === listing._id.toString())) ? 'fa-solid' : 'fa-regular' %>"></i>
               </button>
             <% } %>
@@ -101,9 +101,18 @@
 <% } %>
 
 <script>
-async function toggleWishlist(listingId, btn) {
+async function toggleWishlist(event, listingId, btn) {
+  event.preventDefault();
+  event.stopPropagation();
   try {
     const res = await fetch(`/wishlist/${listingId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    if (!res.ok) {
+      if (res.status === 401) {
+        window.location.href = '/login';
+        return;
+      }
+      throw new Error('Failed to update wishlist');
+    }
     const data = await res.json();
     if (data.status === 'added') {
       btn.classList.add('active');

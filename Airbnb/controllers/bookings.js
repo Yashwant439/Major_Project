@@ -1,9 +1,18 @@
 const Listing = require("../models/listing.js");
 const Booking = require("../models/booking.js");
-const ExpressError = require("../public/utils/ExpressError.js");
 const { sendBookingConfirmation } = require("../public/utils/email.js");
 const razorpayInstance = require("../public/utils/razorpay.js");
-const crypto = require("crypto");
+const { calculateBookingPrice, verifyRazorpaySignature } = require("../public/utils/payment.js");
+
+const isRazorpayConfigured = () =>
+  Boolean(
+    razorpayInstance &&
+    razorpayInstance.isConfigured &&
+    razorpayInstance.keyId &&
+    razorpayInstance.keySecret
+  );
+
+const normalizeGuestCount = (value) => Number.parseInt(value, 10);
 
 module.exports.renderBookForm = async (req, res) => {
   const { id } = req.params;
@@ -17,35 +26,58 @@ module.exports.renderBookForm = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   const { id } = req.params;
+  if (!isRazorpayConfigured()) {
+    req.flash("error", "Payment service is not configured. Please contact support.");
+    return res.redirect(`/listings/${id}/book`);
+  }
+
   const listing = await Listing.findById(id);
   if (!listing) {
     req.flash("error", "Listing not found");
     return res.redirect("/listings");
   }
 
-  const checkIn = new Date(req.body.checkIn);
-  const checkOut = new Date(req.body.checkOut);
-
-  if (checkOut <= checkIn) {
-    req.flash("error", "Check-out date must be after check-in date");
+  const guests = normalizeGuestCount(req.body.guests);
+  if (!Number.isInteger(guests) || guests < 1 || guests > 20) {
+    req.flash("error", "Guest count must be between 1 and 20");
     return res.redirect(`/listings/${id}/book`);
   }
 
-  const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-  const basePrice = listing.price * nights;
-  const tax = Math.round(basePrice * 0.18);
-  const totalPrice = basePrice + tax;
+  if (!req.body.name || !req.body.email || !req.body.phone) {
+    req.flash("error", "Name, email and phone are required");
+    return res.redirect(`/listings/${id}/book`);
+  }
+
+  const priceResult = calculateBookingPrice({
+    nightlyPrice: listing.price,
+    checkIn: req.body.checkIn,
+    checkOut: req.body.checkOut,
+  });
+  if (!priceResult.ok) {
+    req.flash("error", priceResult.reason);
+    return res.redirect(`/listings/${id}/book`);
+  }
+
+  const { checkIn, checkOut, nights, basePrice, tax, totalPrice, isCheckInTodayOrFuture } =
+    priceResult.value;
+  if (!isCheckInTodayOrFuture) {
+    req.flash("error", "Check-in date cannot be in the past");
+    return res.redirect(`/listings/${id}/book`);
+  }
 
   const booking = new Booking({
     ...req.body,
+    guests,
+    checkIn,
+    checkOut,
     listing: id,
     user: req.user._id,
     totalPrice,
   });
-  await booking.save();
 
-  // Create Razorpay order
   try {
+    await booking.save();
+
     const order = await razorpayInstance.orders.create({
       amount: totalPrice * 100, // in paise
       currency: "INR",
@@ -63,13 +95,16 @@ module.exports.create = async (req, res) => {
       booking,
       listing,
       order,
-      razorpayKeyId: process.env.TEST_API_KEY,
+      razorpayKeyId: razorpayInstance.keyId,
       nights,
       basePrice,
       tax,
     });
   } catch (err) {
     console.error("Razorpay order creation failed:", err);
+    await Booking.findByIdAndDelete(booking._id).catch((cleanupErr) => {
+      console.error("Booking cleanup failed:", cleanupErr);
+    });
     req.flash("error", "Payment initialization failed. Please try again.");
     return res.redirect(`/listings/${id}/book`);
   }
@@ -78,18 +113,40 @@ module.exports.create = async (req, res) => {
 module.exports.verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, bookingId } = req.body;
+    if (!bookingId || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing payment fields", redirectUrl: "/listings" });
+    }
 
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.TEST_API_KEY_SECRET)
-      .update(body.toString())
-      .digest("hex");
+    const booking = await Booking.findById(bookingId).populate("listing user");
+    if (!booking) {
+      req.flash("error", "Booking not found");
+      return res.status(404).json({ success: false, redirectUrl: "/listings" });
+    }
 
-    if (expectedSignature === razorpay_signature) {
-      const booking = await Booking.findById(bookingId).populate("listing user");
-      if (!booking) {
-        req.flash("error", "Booking not found");
-        return res.redirect("/listings");
+    if (!booking.user._id.equals(req.user._id)) {
+      return res.status(403).json({ success: false, redirectUrl: "/listings" });
+    }
+
+    if (booking.razorpayOrderId && booking.razorpayOrderId !== razorpay_order_id) {
+      booking.paymentStatus = "failed";
+      await booking.save();
+      return res
+        .status(400)
+        .json({ success: false, message: "Order mismatch", redirectUrl: "/listings" });
+    }
+
+    const isSignatureValid = verifyRazorpaySignature({
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      signature: razorpay_signature,
+      secret: razorpayInstance.keySecret,
+    });
+
+    if (isSignatureValid) {
+      if (booking.paymentStatus === "completed") {
+        return res.json({ success: true, redirectUrl: `/listings/${booking.listing._id}` });
       }
 
       booking.paymentStatus = "completed";
@@ -102,20 +159,17 @@ module.exports.verifyPayment = async (req, res) => {
       );
 
       req.flash("success", "Payment successful! Booking confirmed. A confirmation email has been sent.");
-      return res.redirect(`/listings/${booking.listing._id}`);
+      return res.json({ success: true, redirectUrl: `/listings/${booking.listing._id}` });
     } else {
-      const booking = await Booking.findById(bookingId);
-      if (booking) {
-        booking.paymentStatus = "failed";
-        await booking.save();
-      }
+      booking.paymentStatus = "failed";
+      await booking.save();
       req.flash("error", "Payment verification failed. Please contact support.");
-      return res.redirect("/listings");
+      return res.status(400).json({ success: false, redirectUrl: "/listings" });
     }
   } catch (err) {
     console.error("Payment verification error:", err);
     req.flash("error", "Payment processing error. Please contact support.");
-    return res.redirect("/listings");
+    return res.status(500).json({ success: false, redirectUrl: "/listings" });
   }
 };
 
@@ -123,7 +177,7 @@ module.exports.paymentFailed = async (req, res) => {
   const { bookingId } = req.body;
   try {
     const booking = await Booking.findById(bookingId);
-    if (booking) {
+    if (booking && booking.user.equals(req.user._id)) {
       booking.paymentStatus = "failed";
       await booking.save();
     }
@@ -131,5 +185,5 @@ module.exports.paymentFailed = async (req, res) => {
     console.error("Error updating failed payment:", err);
   }
   req.flash("error", "Payment failed. Please try again.");
-  return res.redirect("/listings");
+  return res.json({ success: false, redirectUrl: "/listings" });
 };

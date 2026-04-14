@@ -1,16 +1,16 @@
 <div class="toast-container" id="toastContainer">
-  <% if(locals.success && locals.success.length) { %>
+  <% if (typeof success !== 'undefined' && success.length) { %>
     <div class="toast-msg toast-success" onclick="this.classList.add('toast-exit'); setTimeout(() => this.remove(), 300)">
       <span class="toast-icon"><i class="fa-solid fa-circle-check"></i></span>
-      <span><%= locals.success %></span>
-      <button class="toast-close" onclick="event.stopPropagation(); this.parentElement.classList.add('toast-exit'); setTimeout(() => this.parentElement.remove(), 300)">&times;</button>
+      <span><%= success %></span>
+      <button class="toast-close" type="button" onclick="event.stopPropagation(); this.parentElement.classList.add('toast-exit'); setTimeout(() => this.parentElement.remove(), 300)">&times;</button>
     </div>
   <% } %>
-  <% if (locals.error && locals.error.length) { %>
+  <% if (typeof error !== 'undefined' && error.length) { %>
     <div class="toast-msg toast-error" onclick="this.classList.add('toast-exit'); setTimeout(() => this.remove(), 300)">
       <span class="toast-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
-      <span><%= locals.error %></span>
-      <button class="toast-close" onclick="event.stopPropagation(); this.parentElement.classList.add('toast-exit'); setTimeout(() => this.parentElement.remove(), 300)">&times;</button>
+      <span><%= error %></span>
+      <button class="toast-close" type="button" onclick="event.stopPropagation(); this.parentElement.classList.add('toast-exit'); setTimeout(() => this.parentElement.remove(), 300)">&times;</button>
     </div>
   <% } %>
 </div>

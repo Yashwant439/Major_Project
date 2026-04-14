@@ -22,8 +22,8 @@ const initDB = async()=>{
     await Listing.deleteMany({})
     await Listing.insertMany(initData.data)
     console.log("Data was initialized")
-//     const dbCount = await Listing.countDocuments();
-//     console.log(`Database now contains ${dbCount} documents`);
+    const dbCount = await Listing.countDocuments();
+    console.log(`Database now contains ${dbCount} documents`);
 }
 
 initDB()

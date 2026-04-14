@@ -44,7 +44,7 @@
           </div>
         </div>
         <p style="font-size: 0.9rem; color: var(--text-secondary);">
-          <i class="fa-solid fa-user me-1"></i> Hosted by <strong><%= listing.owner ? listing.owner.username : 'Unknown' %></strong>
+          <i class="fa-solid fa-user me-1"></i> Hosted by <strong><%= listing.owner && listing.owner.username ? listing.owner.username : 'Yashwant' %></strong>
         </p>
         <% if (!currentUser || !listing.owner || !listing.owner._id.equals(currentUser._id)) { %>
           <a href="/listings/<%= listing._id %>/book" class="btn btn-primary mt-2">
