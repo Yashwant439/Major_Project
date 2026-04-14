@@ -10,7 +10,9 @@ const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const helmet = require("helmet");
+const multer = require("multer");
 const ExpressError = require("./public/utils/ExpressError.js");
+const { setCommonLocals } = require("./middleware.js");
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -95,7 +97,9 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 }));
@@ -106,22 +110,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Flash messages & current user middleware
-app.use(async (req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  if (req.user) {
-    try {
-      const User = require("./models/auth.js");
-      const fullUser = await User.findById(req.user._id);
-      res.locals.currentUser = fullUser;
-    } catch(err) {
-      res.locals.currentUser = req.user;
-    }
-  } else {
-    res.locals.currentUser = null;
-  }
-  next();
-});
+app.use(setCommonLocals);
 
 // Routes
 const listingRoutes = require("./routes/listing.js");
@@ -146,11 +135,25 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   console.error("ERROR:", err.message, err.stack);
+  if (err instanceof multer.MulterError) {
+    err.statusCode = 400;
+    err.message = err.code === "LIMIT_FILE_SIZE"
+      ? "Image size should be under 5MB"
+      : err.message;
+  }
+  if (err.name === "ValidationError") {
+    err.statusCode = 400;
+  }
+  if (err.code === 11000) {
+    err.statusCode = 409;
+    err.message = "Duplicate value found. Please use different details.";
+  }
   const { message = "Something went wrong", statusCode = 500 } = err;
   res.status(statusCode).render("error.ejs", { message, statusCode });
 });
 
 // Start server
+console.log("Google Callback URL:-",process.env.GOOGLE_CALLBACK_URL);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
